@@ -16,9 +16,9 @@ function App() {
 
   const getRandomColor = () => {
     return {
-      r: Math.floor(Math.random() * 256),
-      g: Math.floor(Math.random() * 256),
-      b: Math.floor(Math.random() * 256),
+      r: Math.floor(Math.random() * 128),
+      g: Math.floor(Math.random() * 128),
+      b: Math.floor(Math.random() * 128),
     };
   };
 
