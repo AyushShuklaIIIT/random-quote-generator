@@ -10,7 +10,7 @@ function App() {
   const [quotes, setQuotes] = useState([]);
   const [currQuote, setcurrQuote] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [xlink, setxLink] = useState(null);
+  const [xLink, setxLink] = useState(null);
   const [wpLink, setwpLink] = useState(null);
   const [error, setError] = useState(null);
 
@@ -125,7 +125,7 @@ function App() {
           </AnimatePresence>
           <div id="button-div" className="flex justify-between mt-8">
             <div id="message-buttons" className="flex gap-2">
-              <a href={xlink || ""} target="_blank" rel="noopener noreferrer">
+              <a href={xLink || ""} target="_blank" rel="noopener noreferrer">
                 <button
                   id="tweet-quote"
                   style={{
