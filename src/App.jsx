@@ -73,7 +73,7 @@ function App() {
       >
         <div
           id="quote-box"
-          className="w-full max-w-[550px] bg-white rounded-sm p-9 transition-all duration-1000"
+          className="w-full max-w-[550px] bg-white rounded-sm p-9 transition-all duration-1000 shadow-md m-3"
         >
           <AnimatePresence mode="wait">
             {!loading && currQuote && (
