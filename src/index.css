@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+.montserrat-content {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+}
+
+.playfair-display-content {
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+}

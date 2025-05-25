@@ -91,14 +91,14 @@ function App() {
                   className="text-3xl transition duration-1000 text-center justify-center"
                 >
                   <FontAwesomeIcon icon={faQuoteLeft} className="mr-2" />
-                  <span className="">{currQuote.content}</span>
+                  <span className="playfair-display-content">{currQuote.content}</span>
                 </div>
                 <div
                   id="author"
                   style={{ color: `rgb(${color.r}, ${color.g}, ${color.b})` }}
                   className="transition duration-1000 text-right text-lg mt-4"
                 >
-                  <span className="">-- {currQuote.author}</span>
+                  <span className="playfair-display-content">-- {currQuote.author}</span>
                 </div>
               </motion.div>
             )}
@@ -149,7 +149,7 @@ function App() {
               style={{
                 backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
               }}
-              className="text-white p-2 rounded-sm cursor-pointer transition duration-1000"
+              className="text-white p-2 rounded-sm cursor-pointer transition duration-1000 montserrat-content"
             >
               New Quote
             </button>
