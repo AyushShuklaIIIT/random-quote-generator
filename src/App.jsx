@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuoteLeft } from "@fortawesome/free-solid-svg-icons";
 
@@ -10,6 +10,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [link, setLink] = useState(null);
   const [wpLink, setwpLink] = useState(null);
+  const [error, setError] = useState(null);
 
   const getRandomColor = () => {
     return {
@@ -34,10 +35,14 @@ function App() {
   const getQuotes = async () => {
     try {
       const response = await fetch(
-        "https://api.quotable.io/quotes/random?limit=50"
+        "https://api.quotable.io/quotes/random?limit=20"
       );
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
       const result = await response.json();
       setQuotes(result);
+      console.log(result);
       const randomQuote = result[Math.floor(Math.random() * result.length)];
       setcurrQuote(randomQuote);
       setColor(getRandomColor());
@@ -47,9 +52,11 @@ function App() {
       setwpLink(
         `https://wa.me/?text="${randomQuote.content}"%20${randomQuote.author}`
       );
-      setLoading(false);
     } catch (error) {
       console.error("Failed to fetch quotes: ", error);
+      setError("Server is unavailable. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -95,40 +102,47 @@ function App() {
                 </div>
               </motion.div>
             )}
+            {error && (
+              <div className="text-red-600 text-center mb-4 font-semibold text-3xl">
+                {error}
+              </div>
+            )}
           </AnimatePresence>
           <div id="button-div" className="flex justify-between mt-8">
-            <a href={link || ""} target="_blank" rel="noopener noreferrer">
-              <button
-                id="tweet-quote"
-                style={{
-                  backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
-                }}
-                className="text-white p-2 rounded-sm cursor-pointer transition duration-1000"
-              >
-                <lord-icon
-                  src="https://cdn.lordicon.com/yizwahhw.json"
-                  trigger="hover"
-                  stroke="bold"
-                  colors="primary:#ffffff,secondary:#ffffff"
-                ></lord-icon>
-              </button>
-            </a>
-            <a href={wpLink || ""} target="_blank" rel="noopener noreferrer">
-              <button
-                id="wp-quote"
-                style={{
-                  backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
-                }}
-                className="text-white p-2 rounded-sm cursor-pointer transition duration-1000"
-              >
-                <lord-icon
-                  src="https://cdn.lordicon.com/dnphlhar.json"
-                  trigger="hover"
-                  stroke="bold"
-                  colors="primary:#ffffff,secondary:#ffffff"
-                ></lord-icon>
-              </button>
-            </a>
+            <div id="message-buttons" className="flex gap-2">
+              <a href={link || ""} target="_blank" rel="noopener noreferrer">
+                <button
+                  id="tweet-quote"
+                  style={{
+                    backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
+                  }}
+                  className="text-white p-2 rounded-sm cursor-pointer transition duration-1000"
+                >
+                  <lord-icon
+                    src="https://cdn.lordicon.com/yizwahhw.json"
+                    trigger="hover"
+                    stroke="bold"
+                    colors="primary:#ffffff,secondary:#ffffff"
+                  ></lord-icon>
+                </button>
+              </a>
+              <a href={wpLink || ""} target="_blank" rel="noopener noreferrer">
+                <button
+                  id="wp-quote"
+                  style={{
+                    backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
+                  }}
+                  className="text-white p-2 rounded-sm cursor-pointer transition duration-1000"
+                >
+                  <lord-icon
+                    src="https://cdn.lordicon.com/dnphlhar.json"
+                    trigger="hover"
+                    stroke="bold"
+                    colors="primary:#ffffff,secondary:#ffffff"
+                  ></lord-icon>
+                </button>
+              </a>
+            </div>
             <button
               id="new-quote"
               onClick={getRandomQuote}
