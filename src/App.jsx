@@ -119,7 +119,7 @@ function App() {
       >
         <div
           id="quote-box"
-          className="w-full max-w-[550px] bg-white rounded-xl p-9 transition-all duration-1000 shadow-lg m-3 outline outline-black/5 scale-65 md:scale-100"
+          className="w-full max-w-[550px] bg-white rounded-xl p-9 transition-all duration-1000 shadow-lg m-3 outline outline-black/5 scale-85 md:scale-100"
         >
           <AnimatePresence mode="wait">
             {!loading && currQuote && (
