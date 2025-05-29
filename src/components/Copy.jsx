@@ -24,7 +24,7 @@ const Copy = ({ quote, author, color }) => {
         style={{
           backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
         }}
-        className="text-white p-2 rounded-sm cursor-pointer transition duration-1000"
+        className="text-white p-2 rounded-sm cursor-pointer transition duration-1000 h-14"
         onClick={copyText}
       >
         <lord-icon
