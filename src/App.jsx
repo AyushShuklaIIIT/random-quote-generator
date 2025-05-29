@@ -2,8 +2,11 @@ import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuoteLeft } from "@fortawesome/free-solid-svg-icons";
-// import Input from "./components/Input";
-// import { searchContext } from "./context/contexts";
+import History from "./components/History";
+import { searchContext } from "./context/contexts";
+import { v4 as uuidv4 } from "uuid";
+import Copy from "./components/Copy";
+import {ToastContainer} from "react-toastify"
 
 function App() {
   const [color, setColor] = useState({ r: 50, g: 50, b: 50 });
@@ -48,7 +51,9 @@ function App() {
         throw new Error(`Server error: ${response.status}`);
       }
       let result = await response.json();
-      result = result.quotes;
+      result = result.quotes.map((item) => {
+        return { ...item, id: uuidv4() };
+      });
       setQuotes(result);
       console.log(result);
       const randomQuote = result[Math.floor(Math.random() * result.length)];
@@ -74,17 +79,31 @@ function App() {
 
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+
+      <searchContext.Provider value={{ color, currQuote, setcurrQuote }}>
+        <History></History>
+      </searchContext.Provider>
+      
       <div
         className="w-screen h-screen flex justify-center items-center transition
         duration-1000"
         style={{ backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})` }}
       >
-        {/* <searchContext.Provider value={color}>
-          <Input></Input>
-        </searchContext.Provider> */}
         <div
           id="quote-box"
-          className="w-full max-w-[550px] bg-white rounded-sm p-9 transition-all duration-1000 shadow-md m-3"
+          className="w-full max-w-[550px] bg-white rounded-xl p-9 transition-all duration-1000 shadow-lg m-3 outline outline-black/5"
         >
           <AnimatePresence mode="wait">
             {!loading && currQuote && (
@@ -123,7 +142,7 @@ function App() {
               </div>
             )}
           </AnimatePresence>
-          <div id="button-div" className="flex justify-between mt-8">
+          <div id="button-div" className="flex justify-between mt-8 flex-wrap">
             <div id="message-buttons" className="flex gap-2">
               <a href={xLink || ""} target="_blank" rel="noopener noreferrer">
                 <button
@@ -157,6 +176,11 @@ function App() {
                   ></lord-icon>
                 </button>
               </a>
+              <Copy
+                quote={currQuote?.quote}
+                author={currQuote?.author}
+                color={color}
+              ></Copy>
             </div>
             <button
               id="new-quote"
@@ -164,7 +188,7 @@ function App() {
               style={{
                 backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
               }}
-              className="text-white p-2 rounded-sm cursor-pointer transition duration-1000 montserrat-content"
+              className="text-white p-2 rounded-sm cursor-pointer transition-colors duration-1000 montserrat-content"
             >
               New Quote
             </button>
