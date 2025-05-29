@@ -26,7 +26,10 @@ function App() {
   };
 
   const getRandomQuote = () => {
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    let randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    while (randomQuote.length > 330) {
+      randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    }
     setcurrQuote(randomQuote);
     setColor(getRandomColor());
     setxLink(
@@ -56,7 +59,10 @@ function App() {
       });
       setQuotes(result);
       console.log(result);
-      const randomQuote = result[Math.floor(Math.random() * result.length)];
+      let randomQuote = result[Math.floor(Math.random() * result.length)];
+      while (randomQuote.length > 330) {
+        randomQuote = result[Math.floor(Math.random() * result.length)];
+      }
       setcurrQuote(randomQuote);
       setColor(getRandomColor());
       setxLink(
@@ -80,16 +86,20 @@ function App() {
   window.speechSynthesis.onvoiceschanged = () => {
     const voices = speechSynthesis.getVoices();
     console.log(voices);
-  }
+  };
 
   const speakQuote = () => {
-    const utterance = new SpeechSynthesisUtterance(`${currQuote.quote} by ${currQuote.author})`);
+    const utterance = new SpeechSynthesisUtterance(
+      `${currQuote.quote} by ${currQuote.author})`
+    );
     utterance.pitch = 2;
     utterance.rate = 1;
     utterance.volume = 0.8;
-    utterance.voice = speechSynthesis.getVoices().find((voice) => voice.name === 'Google US English');
+    utterance.voice = speechSynthesis
+      .getVoices()
+      .find((voice) => voice.name === "Google US English");
     speechSynthesis.speak(utterance);
-  }
+  };
 
   return (
     <>
@@ -201,30 +211,30 @@ function App() {
                 color={color}
               ></Copy>
               <button
-                  style={{
-                    backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
-                  }}
-                  className="text-white p-2 rounded-sm cursor-pointer transition duration-1000 h-14"
-                  onClick={speakQuote}
-                >
-                  <lord-icon
-                    src="https://cdn.lordicon.com/txfzrzvh.json"
-                    trigger="hover"
-                    stroke="bold"
-                    colors="primary:#ffffff,secondary:#ffffff"
-                  ></lord-icon>
-                </button>
-            </div>
-              <button
-                id="new-quote"
-                onClick={getRandomQuote}
                 style={{
                   backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
                 }}
-                className="text-white p-2 rounded-sm cursor-pointer transition-colors duration-1000 montserrat-content h-14"
+                className="text-white p-2 rounded-sm cursor-pointer transition duration-1000 h-14"
+                onClick={speakQuote}
               >
-                New Quote
+                <lord-icon
+                  src="https://cdn.lordicon.com/txfzrzvh.json"
+                  trigger="hover"
+                  stroke="bold"
+                  colors="primary:#ffffff,secondary:#ffffff"
+                ></lord-icon>
               </button>
+            </div>
+            <button
+              id="new-quote"
+              onClick={getRandomQuote}
+              style={{
+                backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
+              }}
+              className="text-white p-2 rounded-sm cursor-pointer transition-colors duration-1000 montserrat-content h-14"
+            >
+              New Quote
+            </button>
           </div>
         </div>
       </div>
