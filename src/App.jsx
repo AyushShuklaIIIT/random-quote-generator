@@ -92,9 +92,6 @@ function App() {
     const utterance = new SpeechSynthesisUtterance(
       `${currQuote.quote} by ${currQuote.author})`
     );
-    utterance.pitch = 2;
-    utterance.rate = 1;
-    utterance.volume = 0.8;
     utterance.voice = speechSynthesis
       .getVoices()
       .find((voice) => voice.name === "Google US English");
